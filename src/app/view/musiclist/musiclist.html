@@ -1,1 +1,16 @@
-<p>musiclist works!</p>
+<input type="text" [(ngModel)]="searchSong">
+
+
+@if (searchSong().length <= 0) {
+    @for (song of songsList(); track $index) {
+        <p>{{ song.title }} - {{ song.artist }}</p>
+    }
+} @else if (filteredSongsList().length > 0){
+    @for (song of filteredSongsList(); track $index) {
+        <p>{{ song.title }} - {{ song.artist }}</p>
+    }
+} @else {
+    <p>No s'ha trobat cap cançó ni artista relacionat amb la cerca.</p>
+}
+
+<button (click)="changeViewModeToAddForm()">Afegir Music</button>
