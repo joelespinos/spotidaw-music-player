@@ -1,16 +1,17 @@
 <input type="text" [(ngModel)]="searchSong">
 
 
-@if (searchSong().length <= 0) {
-    @for (song of songsList(); track $index) {
-        <p>{{ song.title }} - {{ song.artist }}</p>
-    }
-} @else if (filteredSongsList().length > 0){
-    @for (song of filteredSongsList(); track $index) {
-        <p>{{ song.title }} - {{ song.artist }}</p>
-    }
+@if (shownSongsList().length > 0){
+    <ul>
+        @for (song of shownSongsList(); track song.songId) {
+            <li class="text-white" (click)="changeViewMode('Player')">
+                ({{ song.songId }}){{ song.title }} - {{ song.artist }}
+                <fa-icon [icon]="getIconByFavorite(song.songId)()" (click)="onChangeFavoriteStatus(song.songId)"></fa-icon>
+            </li>
+        }
+    </ul>
 } @else {
-    <p>No s'ha trobat cap cançó ni artista relacionat amb la cerca.</p>
+    <p class="text-white">No s'ha trobat cap cançó ni artista relacionat amb la cerca.</p>
 }
 
-<button (click)="changeViewModeToAddForm()">Afegir Music</button>
+<button (click)="changeViewMode('AddForm')">Afegir Music</button>

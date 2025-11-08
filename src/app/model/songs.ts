@@ -1,5 +1,6 @@
 export const SONGS: any[] = [
   {
+    songId: 1,
     title: "Gnossienne No.1",
     artist: "Erik Satie",
     favorite: false,
@@ -8,6 +9,7 @@ export const SONGS: any[] = [
     cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzGspxrHDJf1Q9oqERebAwLEu-ybt6ZhLiFg&s"
   },
   {
+    songId: 2,
     title: "Badinerie (Suite No.2, BWV 1067)",
     artist: "Johann Sebastian Bach",
     favorite: false,
@@ -16,6 +18,7 @@ export const SONGS: any[] = [
     cover: "https://www.seattlechambermusic.org/wp-content/uploads/2024/05/Untitled-design-2024-08-02T144316.132-1.jpg"
   },
   {
+    songId: 3,
     title: "In the Hall of the Mountain King",
     artist: "Edvard Grieg",
     favorite: false,
@@ -24,6 +27,7 @@ export const SONGS: any[] = [
     cover: "https://images.digitalconcerthall.com/cms/thumbnails/359x424/images/core/9a1f6d4db2b49f74045b8fa7f87af07a.jpg"
   },
   {
+    songId: 4,
     title: "Prelude in E minor, Op.28 No.4",
     artist: "Frédéric Chopin",
     favorite: false,
@@ -32,6 +36,7 @@ export const SONGS: any[] = [
     cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQms2cr5CTazpQRjQb42DQSuvrKbsavbbLpWA&s"
   },
   {
+    songId: 5,
     title: "Toccata & Fugue in D minor, BWV 565",
     artist: "Johann Sebastian Bach",
     favorite: false,

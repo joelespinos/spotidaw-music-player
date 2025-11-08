@@ -1,4 +1,4 @@
-<div class="main-app-container">
+<div class="app-main-container d-flex justify-content-evenly">
     <app-musiclist (_changeViewMode)="switchViewMode($event)"></app-musiclist>
     @if (viewMode() === 'Player') {
         <app-player></app-player>
