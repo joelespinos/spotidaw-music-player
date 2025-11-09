@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-addform',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './addform.html',
   styleUrl: './addform.css',
 })

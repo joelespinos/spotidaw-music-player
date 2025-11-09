@@ -4,8 +4,10 @@
 @if (shownSongsList().length > 0){
     <ul>
         @for (song of shownSongsList(); track song.songId) {
-            <li class="text-white" (click)="changeViewMode('Player')">
-                ({{ song.songId }}){{ song.title }} - {{ song.artist }}
+            <li class="text-white">
+                <div [class]="getClassSong(song.songId)" (click)="handleClickSong(song.songId)" >
+                    ({{ song.songId }}){{ song.title }} - {{ song.artist }}
+                </div>
                 <fa-icon [icon]="getIconByFavorite(song.songId)()" (click)="onChangeFavoriteStatus(song.songId)"></fa-icon>
             </li>
         }

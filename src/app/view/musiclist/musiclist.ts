@@ -19,6 +19,7 @@ export class Musiclist {
   private _solidHeart: Signal<any>;
   private _regularHeart: Signal<any>;
   public _changeViewMode: OutputEmitterRef<string> = output();
+  private _idSongSelected: WritableSignal<number>;
 
   constructor() {
    let storedSongsList = localStorage.getItem("STORED_SONGS");
@@ -47,6 +48,8 @@ export class Musiclist {
    this._searchSong = signal<string>("");
    this._solidHeart = signal<any>(fasHeart).asReadonly();
    this._regularHeart = signal<any>(farHeart).asReadonly();
+   this._idSongSelected = signal<number>(-1);
+
   }
 
   public get songsList(): Signal<any[]> {
@@ -59,6 +62,10 @@ export class Musiclist {
 
   public get searchSong(): WritableSignal<string> {
     return this._searchSong;
+  }
+
+  public get idSongSelected(): Signal<number> {
+    return this._idSongSelected.asReadonly();
   }
 
   public changeViewMode(mode: string): void {
@@ -89,6 +96,16 @@ export class Musiclist {
     }
     
     localStorage.setItem("STORED_SONGS", JSON.stringify(this._songsList()));
+  }
+
+  public handleClickSong(songId: number) {
+    this.changeViewMode('Player');
+    this._idSongSelected.set(songId);
+  }
+
+  public getClassSong(songId: number):string {
+    if (songId === this._idSongSelected()) return "basic selected";
+    else return "basic";
   }
 
 }
