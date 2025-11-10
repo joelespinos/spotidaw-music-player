@@ -1,13 +1,13 @@
 .app-main-container {
     background-color: #1f1f1f;
-    width: 1200px;
+    width: 1000px;
     margin: 0 auto;
-    margin-top: 15rem;
-    height: 45.75rem;
+    margin-top: 5%;
+    height: 37rem;
 }
 
 .main-logo {
-    width: 400px;
-    height: 400px;
-    margin-right: 5.72rem;
+    width: 300px;
+    height: 300px;
+    margin-right: 11%;
 }

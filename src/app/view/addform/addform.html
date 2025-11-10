@@ -1,5 +1,5 @@
 <div class="addform-container">
-    <button>Sortir</button>
+    <button (click)="changeViewMode('General')">Sortir</button>
     <div class="d-flex flex-column gap-3">
         <input type="text" [(ngModel)]="title" placeholder="Títol de la cançó...">
         <input type="text" [(ngModel)]="artist" placeholder="Nom del grup o de l'artista...">
@@ -8,8 +8,8 @@
         <textarea [(ngModel)]="description" placeholder="Descripció..."></textarea>
     </div>
     <div class="buttons">
-        <button>Cancel·lar</button>
-        <button>Reiniciar Formulari</button>
-        <button>Afegir</button>
+        <button (click)="changeViewMode('General')">Cancel·lar</button>
+        <button (click)="resetFormInputs()">Reiniciar Formulari</button>
+        <button (click)="addSongToList()">Afegir</button>
     </div>
 </div>

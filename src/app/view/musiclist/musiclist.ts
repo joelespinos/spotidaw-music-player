@@ -1,4 +1,4 @@
-import { Component, computed, output, OutputEmitterRef, Signal, signal, WritableSignal } from '@angular/core';
+import { Component, computed, input, InputSignal, output, OutputEmitterRef, Signal, signal, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SONGS } from '../../model/songs';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -20,16 +20,27 @@ export class Musiclist {
   private _searchSong: WritableSignal<string>;
   private _solidHeart: Signal<any>;
   private _regularHeart: Signal<any>;
-  public _changeViewMode: OutputEmitterRef<string> = output();
   private _idSongSelected: WritableSignal<number>;
   private _regularPlus: Signal<any>;
   private _regularSearch: Signal<any>;
 
+  public _newSongToAdd: InputSignal<any> = input<any>();
+  
+  public _changeViewMode: OutputEmitterRef<string> = output();
+
   constructor() {
-   let storedSongsList = localStorage.getItem("STORED_SONGS");
-   
-   if (storedSongsList === null) this._songsList = signal<any[]>(SONGS).asReadonly();
-   else this._songsList = signal<any[]>(JSON.parse(storedSongsList)).asReadonly();
+    this._songsList = computed<any[]>(() => {
+      let songListToReturn: any[] = [];
+      let storedSongsList = localStorage.getItem("STORED_SONGS");
+      
+      if (storedSongsList === null) songListToReturn = SONGS;
+      else songListToReturn = JSON.parse(storedSongsList);
+
+      if(this._newSongToAdd() !== "") {
+        songListToReturn.push(this._newSongToAdd());
+      }
+      return songListToReturn;
+    });
 
    this._shownSongsList = computed<any[]>(() => {
     let filteredList: any[] = [];
@@ -118,8 +129,8 @@ export class Musiclist {
   }
 
   public getClassSong(songId: number): string {
-    if (songId === this._idSongSelected()) return "song-item d-flex align-items-center my-4 fs-5 rounded-4 selected-song";
-    else return "song-item text-white d-flex align-items-center my-4 fs-5 rounded-4";
+    if (songId === this._idSongSelected()) return "song-item d-flex align-items-center my-3 fs-5 rounded-4 selected-song";
+    else return "song-item text-white d-flex align-items-center my-3 fs-5 rounded-4";
   }
 
 }

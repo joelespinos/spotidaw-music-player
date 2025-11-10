@@ -1,5 +1,5 @@
 <div class="ms-5">
-    <div class="search-container d-flex align-items-center gap-2 rounded-4">
+    <div class="search-container d-flex align-items-center gap-2 rounded-4 mb-4 mt-3">
         <label for="seeker">
             <fa-icon class="search-icon fs-3 ms-2" [icon]="searchIcon()"></fa-icon>
         </label>
@@ -10,11 +10,11 @@
         <ul class="songs-list list-unstyled p-0">
             @for (song of shownSongsList(); track song.songId) {
                 <li [class]="getClassSong(song.songId)">
-                    <div class="d-flex flex-grow-1 gap-4 py-2 px-3" (click)="handleClickSong(song.songId)" >
+                    <div class="d-flex align-items-center flex-grow-1 gap-4 py-2 px-3" (click)="handleClickSong(song.songId)" >
                         <img class="song-image" [src]="song.cover" [alt]="song.title + ' cover'">
                         <div>
-                            <p class="fw-bold">{{ song.title }}</p>
-                            <p class="fs-6">{{ song.artist }}</p>
+                            <p class="song-title fw-bold">{{ song.title }}</p>
+                            <p class="song-artist">{{ song.artist }}</p>
                         </div>
                     </div>
                     <fa-icon class="favorite-icon" [icon]="getIconByFavorite(song.songId)()" (click)="onChangeFavoriteStatus(song.songId)"></fa-icon>
@@ -23,11 +23,11 @@
         </ul>
     } @else {
         <div class="not-found-container">
-            <p class="not-found-message p- my-4 fs-5 rounded-3">No s'ha trobat cap cançó ni artista relacionat amb la cerca.</p>
+            <p class="not-found-message py-2 my-4 fs-6 rounded-3">No s'ha trobat cap cançó ni artista relacionat amb la cerca.</p>
         </div>
     }
 
-    <button class="add-button p-2 rounded-circle" (click)="changeViewMode('AddForm')">
-        <fa-icon class="fs-4" [icon]="plusIcon()"></fa-icon>
+    <button class="add-button d-flex align-items-center justify-content-center my-2 p-2 rounded-circle" (click)="changeViewMode('AddForm')">
+        <fa-icon class="fs-5" [icon]="plusIcon()"></fa-icon>
     </button>
 </div>

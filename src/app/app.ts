@@ -11,16 +11,26 @@ import { Addform } from './view/addform/addform';
 })
 export class App {
   private _viewMode: WritableSignal<string>;
+  private _songToAddOnMusicList: WritableSignal<any>;
 
   constructor() {
     this._viewMode = signal<string>("General");
+    this._songToAddOnMusicList = signal<any>("");
   }
 
   public get viewMode(): Signal<string> {
     return this._viewMode.asReadonly();
   }
 
-  public switchViewMode(mode: string) {
+  public get songToAddOnMusicList(): Signal<any> {
+    return this._songToAddOnMusicList.asReadonly();
+  }
+
+  public switchViewMode(mode: string): void {
     this._viewMode.set(mode);
+  }
+
+  public handleNewSong(newSong: any): void {
+    this._songToAddOnMusicList.set(newSong);
   }
 }

@@ -3,13 +3,14 @@
 }
 
 .songs-list {
-    height: 475px;
+    height: 400px;
 }
 
 .song-item {
-    background-color: #2c2c2c;
-    width: 565px;
     box-sizing: border-box;
+    background-color: #2c2c2c;
+    width: 440px;
+    height: 4.2rem;
     border: 3px solid #2c2c2c;
     position: relative;
 }
@@ -21,9 +22,9 @@
 }
 
 .song-image {
-    width: 50px;
-    height: 50px;
-    border-radius: 8px;
+    width: 40px;
+    height: 40px;
+    border-radius: 7px;
     object-fit: cover;
 }
 
@@ -42,18 +43,18 @@ p {
 }
 
 .add-button {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     background-color: #25D865;
     border: none;
 }
 
 .search-input {
     color: rgb(255, 255, 255);
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: bold;
     flex: 1;
-    height: 3.5rem;
+    height: 3rem;
     background-color: #1f1f1f;
     border: none;
 }
@@ -65,7 +66,7 @@ p {
 
 .search-input::placeholder {
     color: #4b4b4b;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: bold;
 }
 
@@ -82,12 +83,13 @@ p {
 
 .favorite-icon {
     position: absolute;
-    left: 32rem;
+    left: 24.7rem;
+    font-size: 1.1rem;
 }
 
 .not-found-container {
-    width: 565px;
-    height: 475px;
+    width: 440px;
+    height: 400px;
 }
 
 .not-found-message {
@@ -95,4 +97,13 @@ p {
     color: #be0000;
     border: 3px solid #be000076;
     text-align: center;
+    height: 3rem;
+}
+
+.song-title {
+    font-size: 1rem;
+}
+
+.song-artist {
+    font-size: 0.9rem;
 }
