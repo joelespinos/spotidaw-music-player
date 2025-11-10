@@ -2,12 +2,22 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.songs-list {
+    height: 475px;
+}
+
 .song-item {
     background-color: #2c2c2c;
     width: 565px;
     box-sizing: border-box;
     border: 3px solid #2c2c2c;
     position: relative;
+}
+
+.song-item:hover {
+    cursor: pointer;
+    background-color: #323232;
+    border: 3px solid #323232;
 }
 
 .song-image {
@@ -24,6 +34,11 @@ p {
 .selected-song {
     color: #25D865;
     border: 3px solid #25D865;
+}
+
+.selected-song:hover {
+    border: 3px solid #25D865;
+    background-color: #323232;
 }
 
 .add-button {
@@ -68,4 +83,16 @@ p {
 .favorite-icon {
     position: absolute;
     left: 32rem;
+}
+
+.not-found-container {
+    width: 565px;
+    height: 475px;
+}
+
+.not-found-message {
+    box-sizing: border-box;
+    color: #be0000;
+    border: 3px solid #be000076;
+    text-align: center;
 }

@@ -1,7 +1,15 @@
-<!-- <form>
-    <input type="text" [(ngModel)]="">
-    <input type="text" [(ngModel)]="">
-    <input type="text" [(ngModel)]="">
-    <input type="text" [(ngModel)]="">
-    <input type="textarea" [(ngModel)]="">
-</form> -->
+<div class="addform-container">
+    <button>Sortir</button>
+    <div class="d-flex flex-column gap-3">
+        <input type="text" [(ngModel)]="title" placeholder="Títol de la cançó...">
+        <input type="text" [(ngModel)]="artist" placeholder="Nom del grup o de l'artista...">
+        <input type="text" [(ngModel)]="mp3Url" placeholder="Enllaç a la cançó...">
+        <input type="text" [(ngModel)]="cover" placeholder="Enllaç de la portada...">
+        <textarea [(ngModel)]="description" placeholder="Descripció..."></textarea>
+    </div>
+    <div class="buttons">
+        <button>Cancel·lar</button>
+        <button>Reiniciar Formulari</button>
+        <button>Afegir</button>
+    </div>
+</div>

@@ -7,7 +7,7 @@
     </div>
     
     @if (shownSongsList().length > 0){
-        <ul class="list-unstyled p-0">
+        <ul class="songs-list list-unstyled p-0">
             @for (song of shownSongsList(); track song.songId) {
                 <li [class]="getClassSong(song.songId)">
                     <div class="d-flex flex-grow-1 gap-4 py-2 px-3" (click)="handleClickSong(song.songId)" >
@@ -22,7 +22,9 @@
             }
         </ul>
     } @else {
-        <p class="text-white">No s'ha trobat cap cançó ni artista relacionat amb la cerca.</p>
+        <div class="not-found-container">
+            <p class="not-found-message p- my-4 fs-5 rounded-3">No s'ha trobat cap cançó ni artista relacionat amb la cerca.</p>
+        </div>
     }
 
     <button class="add-button p-2 rounded-circle" (click)="changeViewMode('AddForm')">
