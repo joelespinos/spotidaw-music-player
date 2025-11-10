@@ -1,19 +1,31 @@
-<input type="text" [(ngModel)]="searchSong">
+<div class="ms-5">
+    <div class="search-container d-flex align-items-center gap-2 rounded-4">
+        <label for="seeker">
+            <fa-icon class="search-icon fs-3 ms-2" [icon]="searchIcon()"></fa-icon>
+        </label>
+        <input id="seeker" class="search-input rounded-4" type="text" [(ngModel)]="searchSong" placeholder="Artista o Títol...">
+    </div>
+    
+    @if (shownSongsList().length > 0){
+        <ul class="list-unstyled p-0">
+            @for (song of shownSongsList(); track song.songId) {
+                <li [class]="getClassSong(song.songId)">
+                    <div class="d-flex flex-grow-1 gap-4 py-2 px-3" (click)="handleClickSong(song.songId)" >
+                        <img class="song-image" [src]="song.cover" [alt]="song.title + ' cover'">
+                        <div>
+                            <p class="fw-bold">{{ song.title }}</p>
+                            <p class="fs-6">{{ song.artist }}</p>
+                        </div>
+                    </div>
+                    <fa-icon class="favorite-icon" [icon]="getIconByFavorite(song.songId)()" (click)="onChangeFavoriteStatus(song.songId)"></fa-icon>
+                </li>
+            }
+        </ul>
+    } @else {
+        <p class="text-white">No s'ha trobat cap cançó ni artista relacionat amb la cerca.</p>
+    }
 
-
-@if (shownSongsList().length > 0){
-    <ul>
-        @for (song of shownSongsList(); track song.songId) {
-            <li class="text-white">
-                <div [class]="getClassSong(song.songId)" (click)="handleClickSong(song.songId)" >
-                    ({{ song.songId }}){{ song.title }} - {{ song.artist }}
-                </div>
-                <fa-icon [icon]="getIconByFavorite(song.songId)()" (click)="onChangeFavoriteStatus(song.songId)"></fa-icon>
-            </li>
-        }
-    </ul>
-} @else {
-    <p class="text-white">No s'ha trobat cap cançó ni artista relacionat amb la cerca.</p>
-}
-
-<button (click)="changeViewMode('AddForm')">Afegir Music</button>
+    <button class="add-button p-2 rounded-circle" (click)="changeViewMode('AddForm')">
+        <fa-icon class="fs-4" [icon]="plusIcon()"></fa-icon>
+    </button>
+</div>

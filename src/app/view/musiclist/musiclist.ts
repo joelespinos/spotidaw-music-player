@@ -1,9 +1,11 @@
 import { Component, computed, output, OutputEmitterRef, Signal, signal, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SONGS } from '../../model/songs';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons/faHeart';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-musiclist',
@@ -20,6 +22,8 @@ export class Musiclist {
   private _regularHeart: Signal<any>;
   public _changeViewMode: OutputEmitterRef<string> = output();
   private _idSongSelected: WritableSignal<number>;
+  private _regularPlus: Signal<any>;
+  private _regularSearch: Signal<any>;
 
   constructor() {
    let storedSongsList = localStorage.getItem("STORED_SONGS");
@@ -49,6 +53,8 @@ export class Musiclist {
    this._solidHeart = signal<any>(fasHeart).asReadonly();
    this._regularHeart = signal<any>(farHeart).asReadonly();
    this._idSongSelected = signal<number>(-1);
+   this._regularPlus = signal<any>(faPlus).asReadonly();
+   this._regularSearch = signal<any>(faMagnifyingGlass).asReadonly();
 
   }
 
@@ -66,6 +72,14 @@ export class Musiclist {
 
   public get idSongSelected(): Signal<number> {
     return this._idSongSelected.asReadonly();
+  }
+
+  public get plusIcon(): Signal<any> {
+    return this._regularPlus;
+  }
+
+  public get searchIcon(): Signal<any> {
+    return this._regularSearch;
   }
 
   public changeViewMode(mode: string): void {
@@ -103,9 +117,9 @@ export class Musiclist {
     this._idSongSelected.set(songId);
   }
 
-  public getClassSong(songId: number):string {
-    if (songId === this._idSongSelected()) return "basic selected";
-    else return "basic";
+  public getClassSong(songId: number): string {
+    if (songId === this._idSongSelected()) return "song-item d-flex align-items-center my-4 fs-5 rounded-4 selected-song";
+    else return "song-item text-white d-flex align-items-center my-4 fs-5 rounded-4";
   }
 
 }
