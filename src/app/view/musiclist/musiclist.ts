@@ -1,4 +1,4 @@
-import { Component, computed, input, InputSignal, output, OutputEmitterRef, Signal, signal, WritableSignal } from '@angular/core';
+import { Component, computed, effect, input, InputSignal, output, OutputEmitterRef, Signal, signal, untracked, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SONGS } from '../../model/songs';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -15,7 +15,7 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 })
 
 export class Musiclist {
-  private _songsList: Signal<any[]>; // Llista de cançons
+  private _songsList: WritableSignal<any[]>; // Llista de cançons
   private _shownSongsList: Signal<any[]>; // Llista de cançons que es mostraran a l'usuari (degut a que aquesta llista anira fent-se més petita o gran depenent en la cerca de l'usuari)
   private _searchSong: WritableSignal<string>;
   private _solidHeart: Signal<any>;
@@ -29,17 +29,33 @@ export class Musiclist {
   public _changeViewMode: OutputEmitterRef<string> = output();
 
   constructor() {
-    this._songsList = computed<any[]>(() => {
-      let songListToReturn: any[] = [];
-      let storedSongsList = localStorage.getItem("STORED_SONGS");
-      
-      if (storedSongsList === null) songListToReturn = SONGS;
-      else songListToReturn = JSON.parse(storedSongsList);
+    let storedSongsList = localStorage.getItem("STORED_SONGS");
+    if (storedSongsList === null) this._songsList = signal<any>(SONGS);
+    else this._songsList = signal<any[]>(JSON.parse(storedSongsList));
 
-      if(this._newSongToAdd() !== "") {
-        songListToReturn.push(this._newSongToAdd());
+    effect(() => {
+      
+      if (this._newSongToAdd() !== "") {
+
+        let newId = untracked(() => this.songsList().length+1);
+
+        let newSongToPush: any = {
+          "songId": newId, // La id numerica de la nova cançó sera la llargada del array + 1, es com una clau auto incremental
+          "title": this._newSongToAdd().title,
+          "artist": this._newSongToAdd().artist,
+          "favorite": false,
+          "mp3Url": this._newSongToAdd().mp3Url,
+          "cover": this._newSongToAdd().cover,
+          "description": this._newSongToAdd().description
+        };
+
+        this._songsList.update((currentSongsList: any[]) => {
+          let newSongsList: any[] = [...currentSongsList]; // Fem ShallowCopy perque signals comproven per referencia, d'aquesta manera tenim una referencia diferent llavors es un canvi 
+          newSongsList.push(newSongToPush);
+          return newSongsList;
+        });
+
       }
-      return songListToReturn;
     });
 
    this._shownSongsList = computed<any[]>(() => {

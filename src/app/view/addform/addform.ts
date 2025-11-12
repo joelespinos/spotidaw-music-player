@@ -65,7 +65,6 @@ export class Addform {
         {
           "title": this._title(),
           "artist": this.artist(),
-          "favorite": false,
           "mp3Url": this._mp3Url(),
           "cover": this._cover(),
           "description": this._description()
