@@ -12,10 +12,12 @@ import { Addform } from './view/addform/addform';
 export class App {
   private _viewMode: WritableSignal<string>;
   private _songToAddOnMusicList: WritableSignal<any>;
+  private _songToPlayOnPlayer: WritableSignal<any>;
 
   constructor() {
     this._viewMode = signal<string>("General");
     this._songToAddOnMusicList = signal<any>("");
+    this._songToPlayOnPlayer = signal<any>("");
   }
 
   public get viewMode(): Signal<string> {
@@ -26,11 +28,19 @@ export class App {
     return this._songToAddOnMusicList.asReadonly();
   }
 
+  public get songToPlayOnPlayer(): Signal<any> {
+    return this._songToPlayOnPlayer.asReadonly();
+  }
+
   public switchViewMode(mode: string): void {
     this._viewMode.set(mode);
   }
 
   public handleNewSong(newSong: any): void {
     this._songToAddOnMusicList.set(newSong);
+  }
+
+  public giveSongToPlayer(songToPlay: any): void {
+    this._songToPlayOnPlayer.set(songToPlay);
   }
 }

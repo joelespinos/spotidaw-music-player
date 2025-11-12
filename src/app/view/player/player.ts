@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input, InputSignal } from '@angular/core';
 
 @Component({
   selector: 'app-player',
@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './player.css',
 })
 export class Player {
-
+  public _songToPlay: InputSignal<any> = input<any>();
 }

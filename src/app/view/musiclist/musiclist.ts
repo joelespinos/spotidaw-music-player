@@ -27,6 +27,7 @@ export class Musiclist {
   public _newSongToAdd: InputSignal<any> = input<any>();
   
   public _changeViewMode: OutputEmitterRef<string> = output();
+  public _songToPlay: OutputEmitterRef<any> = output();
 
   constructor() {
     let storedSongsList = localStorage.getItem("STORED_SONGS");
@@ -141,11 +142,28 @@ export class Musiclist {
   public handleClickSong(songId: number) {
     this.changeViewMode('Player');
     this._idSongSelected.set(songId);
+    this._songToPlay.emit(this.getSongById(songId));
   }
 
   public getClassSong(songId: number): string {
     if (songId === this._idSongSelected()) return "song-item d-flex align-items-center my-3 fs-5 rounded-4 selected-song";
     else return "song-item text-white d-flex align-items-center my-3 fs-5 rounded-4";
+  }
+
+  public getSongById(songId: number): string {
+    let songToReturn: any = "";
+    let i: number = 0;
+    let found: boolean = false;
+
+    while (i < this._songsList().length && !found) {
+      if(this._songsList()[i].songId === songId){
+        songToReturn = [...this._songsList()[i]];
+        found = true;
+      } 
+      i++;
+    }
+
+    return songToReturn;
   }
 
 }
