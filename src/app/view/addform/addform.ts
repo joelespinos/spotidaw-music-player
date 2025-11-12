@@ -14,6 +14,7 @@ export class Addform {
   private _mp3Url: WritableSignal<string>;
   private _cover: WritableSignal<string>;
   private _description: WritableSignal<string>;
+  private _errorMessage: WritableSignal<string>;
   
   public _changeViewMode: OutputEmitterRef<string> = output();
   public _songToSend: OutputEmitterRef<any> = output();
@@ -24,6 +25,7 @@ export class Addform {
     this._mp3Url = signal<string>("");
     this._cover = signal<string>("");
     this._description = signal<string>("");
+    this._errorMessage = signal<string>("");
   }
 
   public get title(): WritableSignal<string> {
@@ -46,6 +48,10 @@ export class Addform {
     return this._description;
   }
 
+  public get errorMessage(): Signal<string> {
+    return this._errorMessage.asReadonly();
+  }
+
   public resetFormInputs(): void {
     this._title.set("");
     this._artist.set("");
@@ -60,7 +66,9 @@ export class Addform {
   }
 
   public addSongToList(): void {
+
     if(this.areInputsNotBlank()) {
+      this._errorMessage.set("");
       let newSong: any = 
         {
           "title": this._title(),
@@ -71,6 +79,8 @@ export class Addform {
         };
       this.resetFormInputs();
       this._songToSend.emit(newSong);
+    } else {
+      this._errorMessage.set("No es pot introduir una cançó amb atributs buids");
     }
   }
 

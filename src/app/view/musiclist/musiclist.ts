@@ -37,24 +37,23 @@ export class Musiclist {
       
       if (this._newSongToAdd() !== "") {
 
-        let newId = untracked(() => this.songsList().length+1);
-
-        let newSongToPush: any = {
-          "songId": newId, // La id numerica de la nova cançó sera la llargada del array + 1, es com una clau auto incremental
-          "title": this._newSongToAdd().title,
-          "artist": this._newSongToAdd().artist,
-          "favorite": false,
-          "mp3Url": this._newSongToAdd().mp3Url,
-          "cover": this._newSongToAdd().cover,
-          "description": this._newSongToAdd().description
-        };
-
         this._songsList.update((currentSongsList: any[]) => {
-          let newSongsList: any[] = [...currentSongsList]; // Fem ShallowCopy perque signals comproven per referencia, d'aquesta manera tenim una referencia diferent llavors es un canvi 
-          newSongsList.push(newSongToPush);
+          let newSongsList: any[] = [...currentSongsList]; // Fem DeepCopy perque signals comproven per referencia, d'aquesta manera tenim una referencia diferent llavors es un canvi 
+          
+          newSongsList.push({
+            "songId": currentSongsList.length+1, // La id numerica de la nova cançó sera la llargada del array + 1, es com una clau auto incremental
+            "title": this._newSongToAdd().title,
+            "artist": this._newSongToAdd().artist,
+            "favorite": false,  // Per defecte la cançó no sera favorita
+            "mp3Url": this._newSongToAdd().mp3Url,
+            "cover": this._newSongToAdd().cover,
+            "description": this._newSongToAdd().description
+          });
+
+          localStorage.setItem("STORED_SONGS", JSON.stringify(newSongsList));
+
           return newSongsList;
         });
-
       }
     });
 

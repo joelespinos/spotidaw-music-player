@@ -4,6 +4,7 @@
 
 .songs-list {
     height: 400px;
+    overflow-y: auto;
 }
 
 .song-item {

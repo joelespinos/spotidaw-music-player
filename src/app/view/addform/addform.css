@@ -1,3 +1,12 @@
 .addform-container {
     margin-right: 9rem;
 }
+
+.not-found-message {
+    box-sizing: border-box;
+    color: #be0000;
+    border: 3px solid #be000076;
+    text-align: center;
+    height: 3rem;
+    width: 300px;
+}
