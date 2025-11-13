@@ -25,65 +25,29 @@ export class Musiclist {
   private _regularSearch: Signal<any>;
 
   public _newSongToAdd: InputSignal<any> = input<any>();
-  //public _actualViewMode: InputSignal<string> = input<string>(); // Escolta sempre el estat actual de la web, ens servira posteriorment per si el mode es General o AddForm que deseleccioni la cançó actual, en cas que hagi alguna.
+  public _actualViewMode: InputSignal<string> = input<string>("General"); // Escolta sempre el estat actual de la web, ens servira posteriorment per si el mode es General o AddForm que deseleccioni la cançó actual, en cas que hagi alguna.
   
   public _changeViewMode: OutputEmitterRef<string> = output();
   public _songToPlay: OutputEmitterRef<any> = output();
 
   constructor() {
+    // RECUPERACIÓ INICIAL DEL LOCAL STORAGE
     let storedSongsList = localStorage.getItem("STORED_SONGS");
     if (storedSongsList === null) this._songsList = signal<any>(SONGS);
     else this._songsList = signal<any[]>(JSON.parse(storedSongsList));
 
-    effect(() => {
-      
-      if (this._newSongToAdd() !== "") {
-
-        this._songsList.update((currentSongsList: any[]) => {
-          let newSongsList: any[] = [...currentSongsList]; // Fem DeepCopy perque signals comproven per referencia, d'aquesta manera tenim una referencia diferent llavors es un canvi 
-          
-          newSongsList.push({
-            "songId": currentSongsList.length+1, // La id numerica de la nova cançó sera la llargada del array + 1, es com una clau auto incremental
-            "title": this._newSongToAdd().title,
-            "artist": this._newSongToAdd().artist,
-            "favorite": false,  // Per defecte la cançó no sera favorita
-            "mp3Url": this._newSongToAdd().mp3Url,
-            "cover": this._newSongToAdd().cover,
-            "description": this._newSongToAdd().description
-          });
-
-          localStorage.setItem("STORED_SONGS", JSON.stringify(newSongsList));
-
-          return newSongsList;
-        });
-      }
-    });
-
-   this._shownSongsList = computed<any[]>(() => {
-    let filteredList: any[] = [];
-
-    if (this._searchSong().length > 0) {
-      for (let i = 0; i < this._songsList().length; i++) {
-        if (this._songsList()[i].title.includes(this._searchSong()) || this._songsList()[i].artist.includes(this._searchSong())) {
-          filteredList.push(this._songsList()[i]);
-        }
-      }
-    } else {
-      for (let i = 0; i < this._songsList().length; i++) {
-        filteredList.push(this._songsList()[i]);
-      }
-    }
-
-    return filteredList;
-   });
+    // EFFECTS I COMPUTED
+    effect(() => this.effectToAddNewSong()); // Effect per afegir cançons de AddForm
+    effect(() => this.effectChangeSelectedIdByViewMode()); // Effect per controlar la cançó seleccionada depenent el Mode de vista
+    this._shownSongsList = computed<any[]>(() => this.computedFilterListBySearch()); // Computed per construit la llista filtrada depenent la cerca
    
-   this._searchSong = signal<string>("");
-   this._solidHeart = signal<any>(fasHeart).asReadonly();
-   this._regularHeart = signal<any>(farHeart).asReadonly();
-   this._idSongSelected = signal<number>(-1);
-   this._regularPlus = signal<any>(faPlus).asReadonly();
-   this._regularSearch = signal<any>(faMagnifyingGlass).asReadonly();
-
+    // INICIALITZACIÓ DE VARIABLES
+    this._searchSong = signal<string>("");
+    this._solidHeart = signal<any>(fasHeart).asReadonly();
+    this._regularHeart = signal<any>(farHeart).asReadonly();
+    this._idSongSelected = signal<number>(-1);
+    this._regularPlus = signal<any>(faPlus).asReadonly();
+    this._regularSearch = signal<any>(faMagnifyingGlass).asReadonly();
   }
 
   public get songsList(): Signal<any[]> {
@@ -111,7 +75,6 @@ export class Musiclist {
   }
 
   public changeViewMode(mode: string): void {
-    if (mode === "AddForm") this._idSongSelected.set(-1); // En cas que es vulgui obrir el AddForm, dexem de seleccionar la cançó seleccionada
     this._changeViewMode.emit(mode);
   }
 
@@ -141,10 +104,23 @@ export class Musiclist {
     localStorage.setItem("STORED_SONGS", JSON.stringify(this._songsList()));
   }
 
-  public handleClickSong(songId: number) {
-    this.changeViewMode('Player');
-    this._idSongSelected.set(songId);
-    this._songToPlay.emit(this.getSongById(songId));
+  /**
+   * @param songId Id de la cançó seleccionada per l'usuari
+   * 
+   * Compara el songId amb la Id de la cançó seleccionada
+   * Si els dos Id són diferents, el songId es seleccionara i es mostrara Player
+   * En canvi, Si els dos Id són iguals, deselecciona la cançó actual.
+   */
+  public handleClickSong(songId: number): void {
+    if (songId !== this._idSongSelected()) {
+      this.changeViewMode('Player');
+      this._idSongSelected.set(songId);
+      this._songToPlay.emit(this.getSongById(songId));
+
+    } else {
+      this.changeViewMode('General');
+      this._idSongSelected.set(songId);
+    }
   }
 
   public getClassSong(songId: number): string {
@@ -164,8 +140,53 @@ export class Musiclist {
       } 
       i++;
     }
-
     return songToReturn;
+  }
+
+  public effectToAddNewSong(): void {
+    if (this._newSongToAdd() !== "") {
+      this._songsList.update((currentSongsList: any[]) => {
+        let newSongsList: any[] = [...currentSongsList]; // Fem DeepCopy perque signals comproven per referencia, d'aquesta manera tenim una referencia diferent llavors es un canvi 
+        
+        newSongsList.push({
+          "songId": currentSongsList.length+1, // La id numerica de la nova cançó sera la llargada del array + 1, es com una clau auto incremental
+          "title": this._newSongToAdd().title,
+          "artist": this._newSongToAdd().artist,
+          "favorite": false,  // Per defecte la cançó no sera favorita
+          "mp3Url": this._newSongToAdd().mp3Url,
+          "cover": this._newSongToAdd().cover,
+          "description": this._newSongToAdd().description
+        });
+
+        localStorage.setItem("STORED_SONGS", JSON.stringify(newSongsList));
+
+        return newSongsList;
+      });
+    }
+  }
+
+  public effectChangeSelectedIdByViewMode(): void {
+    if ((this._actualViewMode() === "General" || this._actualViewMode() === "AddForm") && this._idSongSelected() !== -1) {
+      this._idSongSelected.set(-1); // Resetejem la cançó seleccionada per tal de que no es marqui en la llista
+    }
+  }
+
+  public computedFilterListBySearch(): any[] {
+    let filteredList: any[] = [];
+
+    if (this._searchSong().length > 0) {
+      for (let i = 0; i < this._songsList().length; i++) {
+        if (this._songsList()[i].title.includes(this._searchSong()) || this._songsList()[i].artist.includes(this._searchSong())) {
+          filteredList.push(this._songsList()[i]);
+        }
+      }
+    } else {
+      for (let i = 0; i < this._songsList().length; i++) {
+        filteredList.push(this._songsList()[i]);
+      }
+    }
+
+    return filteredList;
   }
 
 }
