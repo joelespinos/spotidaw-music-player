@@ -2,7 +2,7 @@
     <app-musiclist [_newSongToAdd]="songToAddOnMusicList()" (_changeViewMode)="switchViewMode($event)" (_songToPlay)="giveSongToPlayer($event)"></app-musiclist>
     
     @if (viewMode() === 'Player') {
-        <app-player [_songToPlay]=""></app-player>
+        <app-player [_songRecived]="songToPlayOnPlayer()" (_changeViewMode)="switchViewMode($event)"></app-player>
 
     } @else if(viewMode() === 'AddForm') {
         <app-addform (_changeViewMode)="switchViewMode($event)" (_songToSend)="handleNewSong($event)"></app-addform>

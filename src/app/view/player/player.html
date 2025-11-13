@@ -1,2 +1,15 @@
-<p>player works!</p>
-<audio src="" controls></audio>
+<div class="player-container text-white">
+    <button (click)="changeViewMode('General')">Tancar</button>
+    <div class="song-header">
+        <img [src]="songToPlay().cover" [alt]="songToPlay().title + ' cover'" class="song-cover rounded-4">
+        <div class="player-panel">
+            <p>{{ songToPlay().title }}</p>
+            <p>{{ songToPlay().artist }}</p>
+            <button>{{ songToPlay().favorite }}</button>
+            <audio [src]="songToPlay().mp3Url" controls autoplay></audio>
+        </div>
+    </div>
+    <div class="song-description">
+        <p>{{ songToPlay().description }}</p>
+    </div>
+</div>

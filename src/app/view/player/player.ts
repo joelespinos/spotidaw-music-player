@@ -1,4 +1,4 @@
-import { Component, input, InputSignal } from '@angular/core';
+import { Component, computed, input, InputSignal, output, OutputEmitterRef, Signal } from '@angular/core';
 
 @Component({
   selector: 'app-player',
@@ -7,5 +7,21 @@ import { Component, input, InputSignal } from '@angular/core';
   styleUrl: './player.css',
 })
 export class Player {
-  public _songToPlay: InputSignal<any> = input<any>();
+  private _songToPlay: Signal<any>;
+  
+  public _songRecived: InputSignal<any> = input<any>();
+
+  public _changeViewMode: OutputEmitterRef<any> = output();
+  
+  constructor() {
+    this._songToPlay = computed<any>(() => this._songRecived());
+  }
+
+  public get songToPlay(): Signal<any> {
+    return this._songToPlay;
+  }
+
+  public changeViewMode(mode: string) {
+    this._changeViewMode.emit(mode);
+  }
 }

@@ -25,6 +25,7 @@ export class Musiclist {
   private _regularSearch: Signal<any>;
 
   public _newSongToAdd: InputSignal<any> = input<any>();
+  //public _actualViewMode: InputSignal<string> = input<string>(); // Escolta sempre el estat actual de la web, ens servira posteriorment per si el mode es General o AddForm que deseleccioni la cançó actual, en cas que hagi alguna.
   
   public _changeViewMode: OutputEmitterRef<string> = output();
   public _songToPlay: OutputEmitterRef<any> = output();
@@ -110,6 +111,7 @@ export class Musiclist {
   }
 
   public changeViewMode(mode: string): void {
+    if (mode === "AddForm") this._idSongSelected.set(-1); // En cas que es vulgui obrir el AddForm, dexem de seleccionar la cançó seleccionada
     this._changeViewMode.emit(mode);
   }
 
@@ -150,14 +152,14 @@ export class Musiclist {
     else return "song-item text-white d-flex align-items-center my-3 fs-5 rounded-4";
   }
 
-  public getSongById(songId: number): string {
+  public getSongById(songId: number): any {
     let songToReturn: any = "";
     let i: number = 0;
     let found: boolean = false;
 
     while (i < this._songsList().length && !found) {
       if(this._songsList()[i].songId === songId){
-        songToReturn = [...this._songsList()[i]];
+        songToReturn = this._songsList()[i];
         found = true;
       } 
       i++;
