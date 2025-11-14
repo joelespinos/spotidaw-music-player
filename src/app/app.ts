@@ -13,11 +13,13 @@ export class App {
   private _viewMode: WritableSignal<string>;
   private _songToAddOnMusicList: WritableSignal<any>;
   private _songToPlayOnPlayer: WritableSignal<any>;
+  private _shoudSaveLocalStorage: WritableSignal<boolean>;
 
   constructor() {
     this._viewMode = signal<string>("General");
     this._songToAddOnMusicList = signal<any>("");
     this._songToPlayOnPlayer = signal<any>("");
+    this._shoudSaveLocalStorage = signal<boolean>(false);
   }
 
   public get viewMode(): Signal<string> {
@@ -32,6 +34,10 @@ export class App {
     return this._songToPlayOnPlayer.asReadonly();
   }
 
+  public get shoudSaveLocalStorage(): Signal<boolean> {
+    return this._shoudSaveLocalStorage.asReadonly();
+  }
+
   public switchViewMode(mode: string): void {
     this._viewMode.set(mode);
   }
@@ -42,5 +48,9 @@ export class App {
 
   public giveSongToPlayer(songToPlay: any): void {
     this._songToPlayOnPlayer.set(songToPlay);
+  }
+
+  public onSaveLocalStorage(): void {
+    this._shoudSaveLocalStorage.set(true);
   }
 }

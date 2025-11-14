@@ -5,7 +5,7 @@
         <div class="player-panel">
             <p>{{ songToPlay().title }}</p>
             <p>{{ songToPlay().artist }}</p>
-            <button>{{ songToPlay().favorite }}</button>
+            <fa-icon class="favorite-icon" [icon]="favoriteIcon()" (click)="onChangeFavoriteStatus()"></fa-icon>
             <audio [src]="songToPlay().mp3Url" controls autoplay></audio>
         </div>
     </div>

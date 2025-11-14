@@ -26,7 +26,8 @@ export class Musiclist {
 
   public _newSongToAdd: InputSignal<any> = input<any>();
   public _actualViewMode: InputSignal<string> = input<string>("General"); // Escolta sempre el estat actual de la web, ens servira posteriorment per si el mode es General o AddForm que deseleccioni la cançó actual, en cas que hagi alguna.
-  
+  public _saveLocalStorage: InputSignal<boolean> = input<boolean>(false);
+
   public _changeViewMode: OutputEmitterRef<string> = output();
   public _songToPlay: OutputEmitterRef<any> = output();
 
@@ -39,6 +40,7 @@ export class Musiclist {
     // EFFECTS I COMPUTED
     effect(() => this.effectToAddNewSong()); // Effect per afegir cançons de AddForm
     effect(() => this.effectChangeSelectedIdByViewMode()); // Effect per controlar la cançó seleccionada depenent el Mode de vista
+    effect(() => this.onSaveLocalStorage()); // Effect per desar la songList en LS
     this._shownSongsList = computed<any[]>(() => this.computedFilterListBySearch()); // Computed per construit la llista filtrada depenent la cerca
    
     // INICIALITZACIÓ DE VARIABLES
@@ -187,6 +189,10 @@ export class Musiclist {
     }
 
     return filteredList;
+  }
+
+  public onSaveLocalStorage(): void {
+    if (this._saveLocalStorage()) localStorage.setItem("STORED_SONGS", JSON.stringify(this._songsList()));
   }
 
 }
