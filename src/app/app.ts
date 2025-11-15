@@ -67,4 +67,8 @@ export class App {
   public onChangeFavoriteStatusPlayer(songId: number): void {
     this._songIdToPutFavoritePlayer.set(songId);
   }
+
+  public onResetIdFavorite(): void {
+    this._songIdToPutFavoritePlayer.set(-1);
+  }
 }

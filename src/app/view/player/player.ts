@@ -21,12 +21,19 @@ export class Player {
 
   public _changeViewMode: OutputEmitterRef<any> = output();
   public _adviceToSaveLocalStorage: OutputEmitterRef<void> = output(); // Aquest output ens servira per avisar que s'ha desar el LocalStorage quan el usuari marca la cançó que se esta reproduint al player com favorita
-  
+  public _adviceToResetsongIdFavorite: OutputEmitterRef<void> = output(); // Resetejem el Id de la cançó que hem canviat el estat de favorite per que detecti detecte els posterios canvis
+
   constructor() {
     this._songToPlay = computed<any>(() => this._songRecived());
 
     this._solidHeart = signal<any>(fasHeart).asReadonly();
     this._regularHeart = signal<any>(farHeart).asReadonly();
+
+    effect(() => { // Resetejem el Id per a que es pugui tornar a canviar en els seguients clicks
+      if (this._songIdToFavorite() !== -1) {
+        this._adviceToResetsongIdFavorite.emit();
+      }
+    });
   }
 
   public get songToPlay(): Signal<any> {

@@ -11,7 +11,8 @@
         <app-player [_songRecived]="songToPlayOnPlayer()"
                     [_songIdToFavorite]="songIdToPutFavoritePlayer()"
                     (_adviceToSaveLocalStorage)="onSaveLocalStorage()" 
-                    (_changeViewMode)="switchViewMode($event)"></app-player>
+                    (_changeViewMode)="switchViewMode($event)"
+                    (_adviceToResetsongIdFavorite)="onResetIdFavorite()"></app-player>
 
     } @else if(viewMode() === 'AddForm') {
         <app-addform (_changeViewMode)="switchViewMode($event)" 

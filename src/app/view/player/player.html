@@ -6,7 +6,6 @@
             <p>{{ songToPlay().title }}</p>
             <p>{{ songToPlay().artist }}</p>
             <fa-icon class="favorite-icon" [icon]="favoriteIcon()" (click)="onChangeFavoriteStatus(songToPlay().songId)"></fa-icon>
-            <p>{{ songToPlay().favorite }}</p>
             <audio [src]="songToPlay().mp3Url" controls autoplay></audio>
         </div>
     </div>
