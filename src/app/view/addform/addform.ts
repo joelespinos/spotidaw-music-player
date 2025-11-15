@@ -1,4 +1,4 @@
-import { Component, output, OutputEmitterRef, Signal, signal, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, output, OutputEmitterRef, Signal, signal, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
   imports: [FormsModule],
   templateUrl: './addform.html',
   styleUrl: './addform.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class Addform {

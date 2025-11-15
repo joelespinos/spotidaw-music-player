@@ -1,4 +1,4 @@
-import { Component, computed, effect, input, InputSignal, output, OutputEmitterRef, Signal, signal, untracked, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, input, InputSignal, output, OutputEmitterRef, Signal, signal, untracked, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SONGS } from '../../model/songs';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -12,6 +12,7 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
   imports: [FormsModule, FontAwesomeModule],
   templateUrl: './musiclist.html',
   styleUrl: './musiclist.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class Musiclist {
@@ -30,6 +31,8 @@ export class Musiclist {
 
   public _changeViewMode: OutputEmitterRef<string> = output();
   public _songToPlay: OutputEmitterRef<any> = output();
+  public _updatedLocalStorage: OutputEmitterRef<void> = output();
+  public _changeFavoriteStatusOnPlayer: OutputEmitterRef<number> = output();
 
   constructor() {
     // RECUPERACIÓ INICIAL DEL LOCAL STORAGE
@@ -102,8 +105,12 @@ export class Musiclist {
       } 
       i++;
     }
+
+    if (songId === this._idSongSelected()) {
+      this._changeFavoriteStatusOnPlayer.emit(songId);
+    }
     
-    localStorage.setItem("STORED_SONGS", JSON.stringify(this._songsList()));
+    localStorage.setItem("STORED_SONGS", JSON.stringify(this._songsList())); // Esta linea me la podria estalviar
   }
 
   /**
@@ -117,6 +124,7 @@ export class Musiclist {
     if (songId !== this._idSongSelected()) {
       this.changeViewMode('Player');
       this._idSongSelected.set(songId);
+      console.log(this.getSongById(songId));
       this._songToPlay.emit(this.getSongById(songId));
 
     } else {
@@ -193,6 +201,8 @@ export class Musiclist {
 
   public onSaveLocalStorage(): void {
     if (this._saveLocalStorage()) localStorage.setItem("STORED_SONGS", JSON.stringify(this._songsList()));
+
+    this._updatedLocalStorage.emit(); // Avisem al pare que ja hem desat a LS
   }
 
 }

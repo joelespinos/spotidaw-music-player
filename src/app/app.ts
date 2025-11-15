@@ -14,12 +14,14 @@ export class App {
   private _songToAddOnMusicList: WritableSignal<any>;
   private _songToPlayOnPlayer: WritableSignal<any>;
   private _shoudSaveLocalStorage: WritableSignal<boolean>;
+  private _songIdToPutFavoritePlayer: WritableSignal<number>
 
   constructor() {
     this._viewMode = signal<string>("General");
     this._songToAddOnMusicList = signal<any>("");
     this._songToPlayOnPlayer = signal<any>("");
     this._shoudSaveLocalStorage = signal<boolean>(false);
+    this._songIdToPutFavoritePlayer = signal<number>(-1);
   }
 
   public get viewMode(): Signal<string> {
@@ -38,6 +40,10 @@ export class App {
     return this._shoudSaveLocalStorage.asReadonly();
   }
 
+  public get songIdToPutFavoritePlayer(): Signal<number> {
+    return this._songIdToPutFavoritePlayer.asReadonly();
+  }
+
   public switchViewMode(mode: string): void {
     this._viewMode.set(mode);
   }
@@ -52,5 +58,13 @@ export class App {
 
   public onSaveLocalStorage(): void {
     this._shoudSaveLocalStorage.set(true);
+  }
+
+  public onSetAdviceFalse(): void {
+    this._shoudSaveLocalStorage.set(false); // Tornem a ficar el signal que conte si s'ha de actualitzar el LSan true per a que posteriorment el InputSignal del MusicList salti per canvi de valor a true.
+  }
+
+  public onChangeFavoriteStatusPlayer(songId: number): void {
+    this._songIdToPutFavoritePlayer.set(songId);
   }
 }
