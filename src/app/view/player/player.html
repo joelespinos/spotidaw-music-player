@@ -1,14 +1,18 @@
-<div class="player-container text-white">
-    <button (click)="changeViewMode('General')">Tancar</button>
-    <div class="song-header">
+<div class="player-container text-white d-flex flex-column justify-content-between">
+    <button (click)="changeViewMode('General')" class="close-button d-flex align-items-center justify-content-center mb-3 me-2 p-2 rounded-circle align-self-end">
+        <fa-icon [icon]="closeIcon()" class="fs-5"></fa-icon>
+    </button>
+
+    <div class="song-header d-flex align-items-center gap-2 mt-5 p-4 rounded-5">
+        <fa-icon [icon]="favoriteIcon()" (click)="onChangeFavoriteStatus(songToPlay().songId)" class="favorite-icon d-flex justify-content-center align-items-center fs-5 rounded-circle"></fa-icon>
         <img [src]="songToPlay().cover" [alt]="songToPlay().title + ' cover'" class="song-cover rounded-4">
-        <div class="player-panel">
-            <p>{{ songToPlay().title }}</p>
+        <div class="player-panel text-center p-2">
+            <p class="fw-bold">{{ songToPlay().title }}</p>
             <p>{{ songToPlay().artist }}</p>
-            <fa-icon class="favorite-icon" [icon]="favoriteIcon()" (click)="onChangeFavoriteStatus(songToPlay().songId)"></fa-icon>
             <audio [src]="songToPlay().mp3Url" controls autoplay></audio>
         </div>
     </div>
+    
     <div class="song-description">
         <p>{{ songToPlay().description }}</p>
     </div>

@@ -1,5 +1,49 @@
+.player-container {
+    width: 420px;
+    height: 30rem;
+    margin-bottom: 2rem;
+}
+
+.close-button {
+    width: 40px;
+    height: 40px;
+    background-color: #25D865;
+    border: none;
+    margin: 0 auto;
+}
+
+.close-button:hover, .add:hover {
+    background-color: #1db853;
+}
+
 .song-cover {
-    width: 140px;
-    height: 140px;
+    width: 130px;
+    height: 130px;
     object-fit: cover;
+}
+
+.song-header {
+    position: relative;
+    background-color: #2c2c2c;
+    width: 100%;
+}
+
+p {
+    margin: 0;
+}
+
+audio {
+    width: 230px;
+    height: 45px;
+    margin-top: 1rem;
+}
+
+.favorite-icon {
+    position: absolute;
+    top: -9px;
+    left: -13px;
+    color: #25D865;
+    background-color: #3f3f3f;
+    width: 40px;
+    height: 40px;
 }

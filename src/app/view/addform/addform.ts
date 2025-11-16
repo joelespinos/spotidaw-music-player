@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component, output, OutputEmitterRef, Signal, signal, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faX } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-addform',
-  imports: [FormsModule],
+  imports: [FormsModule, FontAwesomeModule],
   templateUrl: './addform.html',
   styleUrl: './addform.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -16,6 +18,7 @@ export class Addform {
   private _cover: WritableSignal<string>;
   private _description: WritableSignal<string>;
   private _errorMessage: WritableSignal<string>;
+  private _closeIcon: Signal<any>;
   
   public _changeViewMode: OutputEmitterRef<string> = output();
   public _songToSend: OutputEmitterRef<any> = output();
@@ -27,6 +30,7 @@ export class Addform {
     this._cover = signal<string>("");
     this._description = signal<string>("");
     this._errorMessage = signal<string>("");
+    this._closeIcon = signal<any>(faX);
   }
 
   public get title(): WritableSignal<string> {
@@ -51,6 +55,10 @@ export class Addform {
 
   public get errorMessage(): Signal<string> {
     return this._errorMessage.asReadonly();
+  }
+
+  public get closeIcon(): Signal<any> {
+    return this._closeIcon;
   }
 
   public resetFormInputs(): void {

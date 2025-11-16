@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, effect, input, InputSigna
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons/faHeart';
+import { faX } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-player',
@@ -15,6 +16,7 @@ export class Player {
   private _songToPlay: Signal<any>;
   private _solidHeart: Signal<any>;
   private _regularHeart: Signal<any>;
+  private _closeIcon: Signal<any>;
   
   public _songRecived: InputSignal<any> = input<any>();
   public _songIdToFavorite: InputSignal<number> = input<number>(-1);
@@ -28,6 +30,7 @@ export class Player {
 
     this._solidHeart = signal<any>(fasHeart).asReadonly();
     this._regularHeart = signal<any>(farHeart).asReadonly();
+    this._closeIcon = signal<any>(faX);
 
     effect(() => { // Resetejem el Id per a que es pugui tornar a canviar en els seguients clicks
       if (this._songIdToFavorite() !== -1) {
@@ -43,6 +46,10 @@ export class Player {
   public get favoriteIcon(): Signal<any> {
     if (this._songToPlay().favorite) return this._solidHeart;
     else return this._regularHeart;
+  }
+  
+  public get closeIcon(): Signal<any> {
+    return this._closeIcon;
   }
 
   public changeViewMode(mode: string) {

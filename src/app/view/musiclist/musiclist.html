@@ -7,7 +7,7 @@
     </div>
     
     @if (shownSongsList().length > 0){
-        <ul class="songs-list list-unstyled p-0">
+        <ul class="songs-list list-unstyled px-3 rounded-4">
             @for (song of shownSongsList(); track song.songId) {
                 <li [class]="getClassSong(song.songId)">
                     <div class="d-flex align-items-center flex-grow-1 gap-4 py-2 px-3" (click)="handleClickSong(song.songId)" >
