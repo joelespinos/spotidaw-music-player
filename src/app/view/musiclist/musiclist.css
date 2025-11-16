@@ -104,8 +104,8 @@ p {
 
 .not-found-message {
     box-sizing: border-box;
-    color: #be0000;
-    border: 3px solid #be000076;
+    color: #d60000;
+    border: 3px solid #ba0000;
     text-align: center;
     height: 3rem;
 }
